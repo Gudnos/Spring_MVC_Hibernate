@@ -3,10 +3,7 @@ package ru.spring.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.spring.models.User;
 import ru.spring.service.UserService;
 
@@ -21,7 +18,7 @@ public class UsersController {
     }
 
 
-    @GetMapping("/")
+    @RequestMapping("/")
     public String showAllUsers(Model model) {
 
         model.addAttribute("allUsers", userService.getAllUsers());
@@ -29,7 +26,7 @@ public class UsersController {
         return "all-users";
     }
 
-    @GetMapping("/addNewUser")
+    @RequestMapping("/addNewUser")
     public String addNewUser(Model model) {
 
         model.addAttribute("user", new User());
@@ -37,7 +34,7 @@ public class UsersController {
         return "user-info";
     }
 
-    @PostMapping("/saveUser")
+    @RequestMapping("/saveUser")
     public String saveUser(@ModelAttribute("user") User user) {
 
         userService.saveUser(user);
@@ -45,7 +42,7 @@ public class UsersController {
         return "redirect:/";
     }
 
-    @GetMapping("/update/{id}")
+    @RequestMapping("/update/{id}")
     public String updatePage(@PathVariable("id") long id, Model model) {
 
         model.addAttribute("user", userService.getUser(id));
@@ -54,15 +51,15 @@ public class UsersController {
     }
 
 
-    @PostMapping("/update")
+    @RequestMapping("/update")
     public String updateUser(@ModelAttribute("user") User user) {
 
-        userService.saveUser(user);
+        userService.updateUser(user);
 
         return "redirect:/";
     }
 
-    @GetMapping("/delete/{id}")
+    @RequestMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
 
         User user = userService.getUser(id);
